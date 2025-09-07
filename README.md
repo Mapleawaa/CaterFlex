@@ -10,7 +10,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
 ![Redis](https://img.shields.io/badge/Redis-7%2B-red.svg)
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=maplleawaa&layout=compact" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mapleawaa&layout=compact" />
 
 </div>
 
