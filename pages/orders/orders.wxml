@@ -1,0 +1,54 @@
+<!--pages/orders/orders.wxml-->
+<view class="orders-container">
+  <!-- 标签切换 -->
+  <view class="tabs-section">
+    <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" bindtap="onTabChange" data-value="all">
+      全部
+    </view>
+    <view class="tab-item {{activeTab === 'pending' ? 'active' : ''}}" bindtap="onTabChange" data-value="pending">
+      待确认
+    </view>
+    <view class="tab-item {{activeTab === 'working' ? 'active' : ''}}" bindtap="onTabChange" data-value="working">
+      进行中
+    </view>
+    <view class="tab-item {{activeTab === 'completed' ? 'active' : ''}}" bindtap="onTabChange" data-value="completed">
+      已完成
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="orders-list" wx:if="{{orders.length > 0}}">
+    <view class="order-item" wx:for="{{orders}}" wx:key="id" bindtap="onOrderDetail" data-id="{{item.id}}">
+      <view class="order-header">
+        <view class="job-title">{{item.jobTitle}}</view>
+        <text class="status-tag status-{{item.statusTheme}}">{{item.statusText}}</text>
+      </view>
+      <view class="order-info">
+        <view class="info-item">
+          <text class="info-label">工作时间：</text>
+          <text class="info-value">{{item.workTime}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">薪资：</text>
+          <text class="info-value">{{item.salary}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">地点：</text>
+          <text class="info-value">{{item.location}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-section" wx:if="{{!loading && orders.length === 0}}">
+    <i class="bi bi-clipboard-x empty-icon"></i>
+    <text class="empty-text">暂无订单</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading}}">
+    <i class="bi bi-arrow-clockwise loading-icon"></i>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

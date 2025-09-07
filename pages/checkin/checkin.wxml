@@ -1,0 +1,178 @@
+<!--pages/checkin/checkin.wxml-->
+<view class="checkin-container">
+  <!-- 头部状态区域 -->
+  <view class="header-section">
+    <view class="status-card">
+      <view class="current-time">{{currentTime}}</view>
+      <view class="current-date">{{currentDate}}</view>
+      <view class="work-status">
+        <text class="status-text">{{workStatus}}</text>
+        <text class="status-badge status-{{statusTheme}}">{{statusText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 位置信息区域 -->
+  <view class="location-section">
+    <view class="location-card">
+      <view class="location-header">
+        <i class="bi bi-geo-alt-fill location-icon"></i>
+        <text class="location-title">当前位置</text>
+        <button class="refresh-location-btn" bindtap="onRefreshLocation">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </view>
+      
+      <view class="location-info" wx:if="{{currentLocation}}">
+        <view class="location-address">{{currentLocation.address}}</view>
+        <view class="location-distance" wx:if="{{workplaceDistance !== null}}">
+          <text class="distance-label">距离工作地点：</text>
+          <text class="distance-value {{workplaceDistance <= 100 ? 'in-range' : 'out-range'}}">
+            {{workplaceDistance}}米
+          </text>
+        </view>
+      </view>
+      
+      <view class="location-loading" wx:if="{{locationLoading}}">
+        <i class="bi bi-arrow-clockwise loading-icon"></i>
+        <text>定位中...</text>
+      </view>
+      
+      <view class="location-error" wx:if="{{locationError}}">
+        <i class="bi bi-exclamation-triangle"></i>
+        <text>定位失败，请检查位置权限</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 人脸识别区域 -->
+  <view class="face-recognition-section" wx:if="{{showFaceRecognition}}">
+    <view class="face-card">
+      <view class="face-header">
+        <i class="bi bi-person-fill face-icon"></i>
+        <text class="face-title">人脸识别验证</text>
+      </view>
+      
+      <view class="face-camera-area">
+        <camera 
+          class="face-camera"
+          device-position="front"
+          flash="off"
+          binderror="onCameraError"
+          bindstop="onCameraStop"
+          wx:if="{{cameraAuthorized}}"
+        ></camera>
+        
+        <view class="camera-placeholder" wx:if="{{!cameraAuthorized}}">
+          <i class="bi bi-camera-fill"></i>
+          <text>请授权摄像头权限</text>
+          <button class="auth-camera-btn" bindtap="onAuthCamera">授权摄像头</button>
+        </view>
+        
+        <view class="face-guide">
+          <text>请将面部对准摄像头</text>
+        </view>
+      </view>
+      
+      <view class="face-actions">
+        <button class="capture-btn" bindtap="onCaptureFace" disabled="{{!cameraAuthorized || faceRecognizing}}">
+          <i class="bi bi-camera-fill"></i>
+          {{faceRecognizing ? '识别中...' : '开始识别'}}
+        </button>
+      </view>
+      
+      <view class="face-result" wx:if="{{faceResult}}">
+        <view class="result-success" wx:if="{{faceResult.success}}">
+          <i class="bi bi-check-circle-fill"></i>
+          <text>人脸识别成功</text>
+        </view>
+        <view class="result-failed" wx:if="{{!faceResult.success}}">
+          <i class="bi bi-x-circle-fill"></i>
+          <text>{{faceResult.message}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 打卡按钮区域 -->
+  <view class="checkin-actions">
+    <button 
+      class="checkin-btn {{canCheckin ? 'enabled' : 'disabled'}}"
+      bindtap="onCheckin"
+      disabled="{{!canCheckin || checkingIn}}"
+    >
+      <i class="bi bi-geo-alt-fill checkin-icon"></i>
+      <text class="checkin-text">
+        {{checkingIn ? '打卡中...' : (nextCheckinType === 'in' ? '上班打卡' : '下班打卡')}}
+      </text>
+    </button>
+    
+    <view class="checkin-tips" wx:if="{{!canCheckin}}">
+      <text>{{checkinTips}}</text>
+    </view>
+  </view>
+
+  <!-- 今日考勤记录 -->
+  <view class="today-records-section">
+    <view class="records-header">
+      <i class="bi bi-clipboard-check"></i>
+      <text class="records-title">今日考勤</text>
+    </view>
+    
+    <view class="records-list" wx:if="{{todayRecords.length > 0}}">
+      <view 
+        class="record-item"
+        wx:for="{{todayRecords}}"
+        wx:key="id"
+      >
+        <view class="record-type">
+          <i class="bi {{item.type === 'in' ? 'bi-sunrise' : 'bi-sunset'}}"></i>
+          <text>{{item.type === 'in' ? '上班' : '下班'}}</text>
+        </view>
+        <view class="record-time">{{item.time}}</view>
+        <view class="record-status status-{{item.status}}">{{item.statusText}}</view>
+      </view>
+    </view>
+    
+    <view class="no-records" wx:if="{{todayRecords.length === 0}}">
+      <i class="bi bi-clipboard-x"></i>
+      <text>今日暂无考勤记录</text>
+    </view>
+  </view>
+
+  <!-- 考勤统计 -->
+  <view class="stats-section">
+    <view class="stats-header">
+      <i class="bi bi-bar-chart-fill"></i>
+      <text class="stats-title">本月统计</text>
+    </view>
+    
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-number">{{monthStats.workDays || 0}}</view>
+        <view class="stat-label">工作天数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{monthStats.totalHours || 0}}</view>
+        <view class="stat-label">总工时</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{monthStats.lateCount || 0}}</view>
+        <view class="stat-label">迟到次数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{monthStats.earlyCount || 0}}</view>
+        <view class="stat-label">早退次数</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 历史记录入口 -->
+  <view class="history-section">
+    <button class="history-btn" bindtap="onViewHistory">
+      <i class="bi bi-clock-history"></i>
+      <text>查看考勤历史</text>
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </view>
+</view>

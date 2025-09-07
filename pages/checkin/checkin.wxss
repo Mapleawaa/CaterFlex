@@ -1,0 +1,498 @@
+/* pages/checkin/checkin.wxss */
+
+.checkin-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40rpx 30rpx;
+}
+
+/* 时间显示区域 */
+.time-section {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.current-time {
+  font-size: 80rpx;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: 20rpx;
+}
+
+.current-date {
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10rpx;
+}
+
+.work-status {
+  display: inline-block;
+  padding: 12rpx 30rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  border: 2rpx solid rgba(255, 193, 7, 0.5);
+}
+
+.status-working {
+  background: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 2rpx solid rgba(40, 167, 69, 0.5);
+}
+
+.status-completed {
+  background: rgba(108, 117, 125, 0.2);
+  color: #6c757d;
+  border: 2rpx solid rgba(108, 117, 125, 0.5);
+}
+
+/* 位置信息卡片 */
+.location-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.location-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.refresh-btn {
+  padding: 12rpx 24rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #6c757d;
+  border: none;
+}
+
+.refresh-btn:active {
+  background: #e9ecef;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.location-icon {
+  font-size: 32rpx;
+  color: #28a745;
+  margin-right: 20rpx;
+}
+
+.location-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.distance-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+}
+
+.distance-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.distance-value {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.distance-valid {
+  color: #28a745;
+}
+
+.distance-invalid {
+  color: #dc3545;
+}
+
+.location-loading, .location-error {
+  text-align: center;
+  padding: 40rpx;
+  color: #666;
+}
+
+.loading-icon {
+  font-size: 40rpx;
+  color: #007bff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 人脸识别卡片 */
+.face-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.face-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.face-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.camera-container {
+  position: relative;
+  width: 100%;
+  height: 400rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #f8f9fa;
+  margin-bottom: 30rpx;
+}
+
+.camera {
+  width: 100%;
+  height: 100%;
+}
+
+.camera-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+}
+
+.camera-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: #ccc;
+}
+
+.auth-camera-btn {
+  padding: 20rpx 40rpx;
+  background: #007bff;
+  color: white;
+  border-radius: 25rpx;
+  font-size: 28rpx;
+  border: none;
+  margin-top: 20rpx;
+}
+
+.capture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.capture-btn {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: white;
+  border: 6rpx solid #007bff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #007bff;
+}
+
+.capture-btn:active {
+  background: #f8f9fa;
+}
+
+.face-result {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.face-result.success {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.face-result.error {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.face-result-icon {
+  font-size: 32rpx;
+  margin-right: 20rpx;
+}
+
+.face-recognizing {
+  text-align: center;
+  padding: 40rpx;
+  color: #007bff;
+}
+
+.recognizing-icon {
+  font-size: 60rpx;
+  margin-bottom: 20rpx;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 打卡按钮区域 */
+.checkin-section {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.checkin-btn {
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  font-size: 36rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 10rpx 30rpx rgba(238, 90, 36, 0.3);
+  margin-bottom: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkin-btn:active {
+  transform: scale(0.95);
+}
+
+.checkin-btn.disabled {
+  background: #ccc;
+  box-shadow: none;
+}
+
+.checkin-icon {
+  font-size: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.checkin-loading {
+  animation: spin 1s linear infinite;
+}
+
+.checkin-tips {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 40rpx;
+}
+
+.tips-error {
+  color: #ffc107;
+}
+
+/* 考勤统计卡片 */
+.stats-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.view-history-btn {
+  padding: 12rpx 24rpx;
+  background: #007bff;
+  color: white;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  border: none;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.today-records {
+  border-top: 2rpx solid #f0f0f0;
+  padding-top: 30rpx;
+}
+
+.records-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-info {
+  display: flex;
+  align-items: center;
+}
+
+.record-icon {
+  font-size: 32rpx;
+  margin-right: 20rpx;
+}
+
+.record-icon.in {
+  color: #28a745;
+}
+
+.record-icon.out {
+  color: #dc3545;
+}
+
+.record-details {
+  flex: 1;
+}
+
+.record-type {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.record-time {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.record-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.record-status.normal {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.record-status.late {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.record-status.early {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.no-records {
+  text-align: center;
+  padding: 60rpx;
+  color: #999;
+}
+
+.no-records-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: #ddd;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .checkin-container {
+    padding: 30rpx 20rpx;
+  }
+  
+  .current-time {
+    font-size: 60rpx;
+  }
+  
+  .checkin-btn {
+    width: 250rpx;
+    height: 250rpx;
+    font-size: 32rpx;
+  }
+  
+  .stats-grid {
+    gap: 20rpx;
+  }
+}

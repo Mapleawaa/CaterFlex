@@ -1,0 +1,67 @@
+<!--pages/settings/settings.wxml-->
+<view class="settings-container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <t-avatar 
+      size="80rpx" 
+      image="{{userInfo.avatar || '/assets/images/default-avatar.png'}}"
+    />
+    <view class="user-info">
+      <view class="user-name">{{userInfo.name || '未设置姓名'}}</view>
+      <view class="user-phone">{{userInfo.phone || '未绑定手机'}}</view>
+    </view>
+  </view>
+
+  <!-- 设置列表 -->
+  <view class="settings-section">
+    <t-cell-group>
+      <t-cell 
+        wx:for="{{settingsItems}}" 
+        wx:key="id"
+        title="{{item.title}}"
+        left-icon="{{item.icon}}"
+        arrow="{{item.type === 'navigate'}}"
+        hover="{{item.type === 'navigate'}}"
+        bindtap="onMenuItemTap"
+        data-item="{{item}}"
+      >
+        <t-switch 
+          wx:if="{{item.type === 'switch'}}"
+          slot="note"
+          value="{{item.value}}"
+          bindchange="onSwitchChange"
+          data-id="{{item.id}}"
+        />
+      </t-cell>
+    </t-cell-group>
+  </view>
+
+  <!-- 其他操作 -->
+  <view class="actions-section">
+    <t-cell-group>
+      <t-cell 
+        title="清除缓存" 
+        left-icon="delete"
+        hover
+        bindtap="onClearCache"
+      />
+      <t-cell 
+        title="检查更新" 
+        left-icon="refresh"
+        hover
+        bindtap="onCheckUpdate"
+      >
+        <view slot="note" class="version-text">v{{version}}</view>
+      </t-cell>
+    </t-cell-group>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-section">
+    <view class="version-info">
+      <view class="app-name">餐饮灵活用工</view>
+      <view class="version-number">版本 {{version}}</view>
+      <view class="copyright">© 2024 餐饮灵活用工平台</view>
+    </view>
+  </view>
+</view>

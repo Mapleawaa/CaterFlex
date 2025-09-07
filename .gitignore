@@ -1,0 +1,162 @@
+# 依赖目录
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# 运行时数据
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# 覆盖率目录
+coverage/
+*.lcov
+
+# 缓存目录
+.npm/
+.npmrc
+.eslintcache
+.stylelintcache
+.node_repl_history
+
+# 输出目录
+dist/
+build/
+.nyc_output
+
+# 依赖锁定文件（可选，根据团队规范决定）
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# 环境变量文件
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 编辑器目录和文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 微信开发者工具生成的文件
+project.private.config.json
+
+# 测试相关
+/coverage/
+/.nyc_output
+
+# 临时文件
+.tmp/
+.temp/
+
+# Docker相关
+.docker/
+
+# 本地开发服务器
+.vercel/
+.next/
+
+# 类型Script编译输出
+*.tsbuildinfo
+
+# 压缩文件
+*.tar.gz
+*.zip
+
+# 备份文件
+*.bak
+*.backup
+
+# 证书文件（生产环境应该从安全的地方获取）
+*.pem
+*.key
+*.crt
+
+# 数据库文件（开发环境）
+*.db
+*.sqlite
+*.sqlite3
+
+# 缓存目录
+.cache/
+.parcel-cache/
+
+# 包管理器特定文件
+.yarn/
+.yarnrc.yml
+.pnp.*
+.yarn-integrity
+
+# IDE配置文件
+*.code-workspace
+
+# 性能分析文件
+*.cpuprofile
+*.heapsnapshot
+
+# 文档生成
+/docs/_build/
+
+# 本地开发配置
+.local/
+.devcontainer/
+
+# 测试快照
+__snapshots__/
+*.snap
+
+# 二进制文件
+*.exe
+*.dll
+*.so
+*.dylib
+
+# 调试文件
+*.pdb
+
+# 忽略所有隐藏文件（除了.gitignore）
+.*
+
+# 但保留以下重要文件
+!.gitignore
+!.editorconfig
+!.eslintrc.js
+!.prettierrc
+!.babelrc
+!.dockerignore
+!.npmrc
+!.yarnrc
+!.env.example
+
+# 微信小程序特定文件
+# 忽略编译产物，但保留源代码
+miniprogram_npm/
+miniprogram_dist/

@@ -1,0 +1,7 @@
+<!--pages/company/company.wxml-->
+<view class="company-container">
+  <view class="empty-section">
+    <text class="empty-icon">🏢</text>
+    <text class="empty-text">企业管理功能开发中</text>
+  </view>
+</view>

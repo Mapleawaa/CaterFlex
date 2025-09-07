@@ -1,0 +1,4 @@
+<!--pages/salary/salary.wxml-->
+<view class="salary-container">
+  <t-empty description="薪资功能开发中" />
+</view>

@@ -1,0 +1,4 @@
+/* pages/manage/manage.wxss */
+.manage-container {
+  padding: 120rpx 32rpx;
+}

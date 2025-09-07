@@ -1,0 +1,135 @@
+<!--pages/job-detail/job-detail.wxml-->
+<view class="job-detail-container">
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading}}">
+    <text class="loading-icon">⏳</text>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 岗位详情内容 -->
+  <view wx:if="{{!loading && jobDetail}}" class="content">
+    <!-- 岗位头部信息 -->
+    <view class="job-header">
+      <view class="job-basic">
+        <view class="job-title">{{jobDetail.title}}</view>
+        <view class="job-salary">{{jobDetail.salary}}元/{{jobDetail.salaryUnit}}</view>
+      </view>
+      <view class="job-status">
+        <text class="status-tag status-{{jobDetail.urgency}}">{{jobDetail.status}}</text>
+      </view>
+    </view>
+
+    <!-- 企业信息卡片 -->
+    <view class="company-card">
+      <view class="company-header">
+        <view class="company-avatar">🏢</view>
+        <view class="company-info">
+          <view class="company-name">{{jobDetail.companyName}}</view>
+          <view class="company-location">
+            <text class="location-icon">📍</text>
+            <text>{{jobDetail.location}} · {{jobDetail.distance}}m</text>
+          </view>
+        </view>
+        <view class="company-action">
+          <button class="contact-btn" bindtap="onContactCompany">联系</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 工作信息 -->
+    <view class="work-info-card">
+      <view class="card-title">工作信息</view>
+      <view class="info-list">
+        <view class="info-item">
+          <text class="info-label">工作时间</text>
+          <text class="info-value">{{jobDetail.workTime}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">发布时间</text>
+          <text class="info-value">{{jobDetail.publishTime}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">招聘人数</text>
+          <text class="info-value">{{jobDetail.recruitCount || '若干'}}人</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 岗位描述 -->
+    <view class="job-content-card">
+      <view class="card-title">岗位描述</view>
+      <view class="job-description">{{jobDetail.description}}</view>
+    </view>
+
+    <!-- 岗位要求 -->
+    <view class="requirements-card" wx:if="{{jobDetail.requirements && jobDetail.requirements.length > 0}}">
+      <view class="card-title">岗位要求</view>
+      <view class="requirements-list">
+        <view class="requirement-item" wx:for="{{jobDetail.requirements}}" wx:key="*this">
+          <text class="requirement-icon">✓</text>
+          <text class="requirement-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 福利待遇 -->
+    <view class="benefits-card" wx:if="{{jobDetail.benefits && jobDetail.benefits.length > 0}}">
+      <view class="card-title">福利待遇</view>
+      <view class="benefits-list">
+        <text class="benefit-tag" wx:for="{{jobDetail.benefits}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 相似岗位推荐 -->
+    <view class="similar-jobs-card" wx:if="{{similarJobs && similarJobs.length > 0}}">
+      <view class="card-title">相似岗位推荐</view>
+      <view class="similar-jobs-list">
+        <view class="similar-job-item" wx:for="{{similarJobs}}" wx:key="id" bindtap="onSimilarJobTap" data-id="{{item.id}}">
+          <view class="similar-job-info">
+            <view class="similar-job-title">{{item.title}}</view>
+            <view class="similar-job-company">{{item.companyName}}</view>
+          </view>
+          <view class="similar-job-salary">{{item.salary}}元/{{item.salaryUnit}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部申请区域 -->
+  <view class="apply-section" wx:if="{{!loading && jobDetail}}">
+    <view class="apply-actions">
+      <button class="collect-btn {{isCollected ? 'collected' : ''}}" bindtap="onToggleCollect">
+        <text class="collect-icon">{{isCollected ? '❤️' : '🤍'}}</text>
+        <text class="collect-text">{{isCollected ? '已收藏' : '收藏'}}</text>
+      </button>
+      <button 
+        class="apply-btn {{applying ? 'loading' : ''}}" 
+        disabled="{{applying || hasApplied}}"
+        bindtap="onApplyJob"
+      >
+        {{hasApplied ? '已申请' : applying ? '申请中...' : '立即申请'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 申请成功弹窗 -->
+  <view class="success-popup {{showSuccessPopup ? 'show' : ''}}" wx:if="{{showSuccessPopup}}">
+    <view class="popup-mask" bindtap="onHideSuccessPopup"></view>
+    <view class="popup-content">
+      <view class="success-icon">🎉</view>
+      <view class="success-title">申请成功！</view>
+      <view class="success-desc">您的申请已提交，企业将在24小时内回复</view>
+      <view class="success-actions">
+        <button class="success-btn" bindtap="onViewMyApplications">查看我的申请</button>
+        <button class="success-btn secondary" bindtap="onHideSuccessPopup">继续浏览</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error-section" wx:if="{{!loading && !jobDetail}}">
+    <text class="error-icon">😕</text>
+    <text class="error-text">岗位信息加载失败</text>
+    <button class="retry-btn" bindtap="loadJobDetail">重新加载</button>
+  </view>
+</view>

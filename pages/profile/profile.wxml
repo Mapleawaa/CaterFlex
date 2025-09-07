@@ -1,0 +1,116 @@
+<!--pages/profile/profile.wxml-->
+<view class="profile-container">
+  <!-- 用户信息头部 -->
+  <view class="header-section">
+    <view class="user-card">
+      <image 
+        class="user-avatar"
+        src="{{userInfo.avatar || 'https://via.placeholder.com/120x120/E0E0E0/999999?text=头像'}}"
+        mode="aspectFill"
+      />
+      <view class="user-details">
+        <view class="user-name">{{userInfo.name || '未设置姓名'}}</view>
+        <view class="user-type">
+          <view class="type-tag {{userType === 'worker' ? 'worker' : 'company'}}">
+            {{userType === 'worker' ? '求职者' : '企业用户'}}
+          </view>
+        </view>
+        <view class="user-phone">
+          <i class="bi bi-telephone-fill"></i>
+          {{userInfo.phone || '未绑定手机'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="stats-section" wx:if="{{userStats}}">
+    <view class="stats-title">数据概览</view>
+    <view class="stats-grid">
+      <view class="stat-item" wx:if="{{userType === 'worker'}}">
+        <view class="stat-number">{{userStats.totalOrders || 0}}</view>
+        <view class="stat-label">总订单</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'worker'}}">
+        <view class="stat-number">{{userStats.completedOrders || 0}}</view>
+        <view class="stat-label">已完成</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'worker'}}">
+        <view class="stat-number">{{userStats.totalEarnings || 0}}</view>
+        <view class="stat-label">总收入(元)</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'worker'}}">
+        <view class="stat-number">{{userStats.averageRating || 0}}</view>
+        <view class="stat-label">平均评分</view>
+      </view>
+      
+      <view class="stat-item" wx:if="{{userType === 'company'}}">
+        <view class="stat-number">{{userStats.activeJobs || 0}}</view>
+        <view class="stat-label">活跃岗位</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'company'}}">
+        <view class="stat-number">{{userStats.totalHires || 0}}</view>
+        <view class="stat-label">总雇佣</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'company'}}">
+        <view class="stat-number">{{userStats.monthlySpending || 0}}</view>
+        <view class="stat-label">月支出(元)</view>
+      </view>
+      <view class="stat-item" wx:if="{{userType === 'company'}}">
+        <view class="stat-number">{{userStats.averageRating || 0}}</view>
+        <view class="stat-label">平均评分</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions" wx:if="{{userType === 'worker'}}">
+    <view class="actions-title">快捷操作</view>
+    <view class="actions-grid">
+      <view 
+        class="action-item"
+        wx:for="{{quickActions}}" 
+        wx:key="id"
+        bindtap="onQuickActionTap"
+        data-action="{{item}}"
+      >
+        <view class="action-icon">
+          <i class="bi {{item.icon}}"></i>
+        </view>
+        <view class="action-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-section">
+    <view class="menu-group">
+      <view 
+        class="menu-item"
+        wx:for="{{userType === 'worker' ? menuItems : companyMenuItems}}" 
+        wx:key="id"
+        bindtap="onMenuItemTap"
+        data-item="{{item}}"
+      >
+        <view class="menu-icon">
+          <i class="bi {{item.icon}}"></i>
+        </view>
+        <view class="menu-title">{{item.title}}</view>
+        <view class="menu-arrow">></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="onLogout">
+      退出登录
+    </button>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-section">
+    <view class="version-info">餐饮灵活用工平台 v1.0.0</view>
+    <view class="copyright">© 2024 All Rights Reserved</view>
+  </view>
+</view>

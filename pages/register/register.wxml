@@ -1,0 +1,193 @@
+<!--pages/register/register.wxml-->
+<view class="register-container">
+  <!-- 头部 -->
+  <view class="header-section">
+    <view class="logo-area">
+      <view class="app-logo">🍽️</view>
+      <view class="app-name">餐饮灵活用工</view>
+      <view class="register-title">用户注册</view>
+    </view>
+  </view>
+
+  <!-- 用户类型选择 -->
+  <view class="user-type-section">
+    <view class="type-options">
+      <view 
+        class="type-option {{userType === 'worker' ? 'active' : ''}}"
+        bindtap="onUserTypeChange"
+        data-type="worker"
+      >
+        求职者注册
+      </view>
+      <view 
+        class="type-option {{userType === 'company' ? 'active' : ''}}"
+        bindtap="onUserTypeChange"
+        data-type="company"
+      >
+        企业注册
+      </view>
+    </view>
+  </view>
+
+  <!-- 注册表单 -->
+  <view class="form-section">
+    <!-- 手机号 -->
+    <view class="form-item">
+      <input
+        class="form-input"
+        value="{{formData.phone}}"
+        placeholder="请输入手机号"
+        type="number"
+        maxlength="11"
+        bindinput="onInputChange"
+        data-field="phone"
+      />
+      <view class="error-text" wx:if="{{errors.phone}}">{{errors.phone}}</view>
+    </view>
+
+    <!-- 验证码 -->
+    <view class="form-item verify-code-item">
+      <input
+        class="form-input verify-input"
+        value="{{formData.verifyCode}}"
+        placeholder="请输入验证码"
+        type="number"
+        maxlength="6"
+        bindinput="onInputChange"
+        data-field="verifyCode"
+      />
+      <button
+        class="verify-btn {{countdown > 0 ? 'disabled' : ''}}"
+        disabled="{{countdown > 0 || sendingCode}}"
+        bindtap="onSendCode"
+      >
+        {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+      </button>
+      <view class="error-text" wx:if="{{errors.verifyCode}}">{{errors.verifyCode}}</view>
+    </view>
+
+    <!-- 密码 -->
+    <view class="form-item">
+      <input
+        class="form-input"
+        value="{{formData.password}}"
+        placeholder="请设置密码（至少6位）"
+        password="{{!showPassword}}"
+        bindinput="onInputChange"
+        data-field="password"
+      />
+      <view class="input-suffix" bindtap="onTogglePassword" data-type="showPassword">
+        {{showPassword ? '隐藏' : '显示'}}
+      </view>
+      <view class="error-text" wx:if="{{errors.password}}">{{errors.password}}</view>
+    </view>
+
+    <!-- 确认密码 -->
+    <view class="form-item">
+      <input
+        class="form-input"
+        value="{{formData.confirmPassword}}"
+        placeholder="请再次输入密码"
+        password="{{!showConfirmPassword}}"
+        bindinput="onInputChange"
+        data-field="confirmPassword"
+      />
+      <view class="input-suffix" bindtap="onTogglePassword" data-type="showConfirmPassword">
+        {{showConfirmPassword ? '隐藏' : '显示'}}
+      </view>
+      <view class="error-text" wx:if="{{errors.confirmPassword}}">{{errors.confirmPassword}}</view>
+    </view>
+
+    <!-- 求职者信息 -->
+    <block wx:if="{{userType === 'worker'}}">
+      <view class="form-item">
+        <input
+          class="form-input"
+          value="{{formData.name}}"
+          placeholder="请输入真实姓名"
+          bindinput="onInputChange"
+          data-field="name"
+        />
+        <view class="error-text" wx:if="{{errors.name}}">{{errors.name}}</view>
+      </view>
+
+      <view class="form-item">
+        <input
+          class="form-input"
+          value="{{formData.idCard}}"
+          placeholder="请输入身份证号"
+          bindinput="onInputChange"
+          data-field="idCard"
+        />
+        <view class="error-text" wx:if="{{errors.idCard}}">{{errors.idCard}}</view>
+      </view>
+    </block>
+
+    <!-- 企业信息 -->
+    <block wx:if="{{userType === 'company'}}">
+      <view class="form-item">
+        <input
+          class="form-input"
+          value="{{formData.companyName}}"
+          placeholder="请输入企业名称"
+          bindinput="onInputChange"
+          data-field="companyName"
+        />
+        <view class="error-text" wx:if="{{errors.companyName}}">{{errors.companyName}}</view>
+      </view>
+
+      <view class="form-item">
+        <input
+          class="form-input"
+          value="{{formData.businessLicense}}"
+          placeholder="请输入营业执照号"
+          bindinput="onInputChange"
+          data-field="businessLicense"
+        />
+        <view class="error-text" wx:if="{{errors.businessLicense}}">{{errors.businessLicense}}</view>
+      </view>
+
+      <view class="form-item">
+        <input
+          class="form-input"
+          value="{{formData.contactPerson}}"
+          placeholder="请输入联系人姓名"
+          bindinput="onInputChange"
+          data-field="contactPerson"
+        />
+        <view class="error-text" wx:if="{{errors.contactPerson}}">{{errors.contactPerson}}</view>
+      </view>
+    </block>
+
+    <!-- 协议同意 -->
+    <view class="agreement-section">
+      <checkbox-group bindchange="onAgreeChange">
+        <label class="agreement-label">
+          <checkbox value="agree" checked="{{formData.agreeTerms}}" />
+          我已阅读并同意
+          <text class="link-text">《用户协议》</text>
+          和
+          <text class="link-text">《隐私政策》</text>
+        </label>
+      </checkbox-group>
+      <view class="error-text" wx:if="{{errors.agreeTerms}}">{{errors.agreeTerms}}</view>
+    </view>
+
+    <!-- 注册按钮 -->
+    <view class="submit-section">
+      <button
+        class="submit-btn {{loading ? 'loading' : ''}}"
+        disabled="{{loading}}"
+        bindtap="onSubmit"
+      >
+        {{loading ? '注册中...' : '立即注册'}}
+      </button>
+    </view>
+
+    <!-- 登录链接 -->
+    <view class="login-link">
+      <text>已有账号？</text>
+      <text class="link-text" bindtap="onGoLogin">立即登录</text>
+    </view>
+  </view>
+</view>

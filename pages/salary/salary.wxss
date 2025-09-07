@@ -1,0 +1,4 @@
+/* pages/salary/salary.wxss */
+.salary-container {
+  padding: 120rpx 32rpx;
+}

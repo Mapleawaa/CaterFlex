@@ -1,0 +1,4 @@
+<!--pages/publish-job/publish-job.wxml-->
+<view class="publish-job-container">
+  <t-empty description="发布岗位功能开发中" />
+</view>

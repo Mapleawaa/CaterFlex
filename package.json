@@ -1,0 +1,30 @@
+{
+  "name": "catering-flexible-work-miniprogram",
+  "version": "1.0.0",
+  "description": "餐饮行业灵活用工小程序平台",
+  "main": "app.js",
+  "scripts": {
+    "dev": "npm run build:npm",
+    "dev:preview": "npm run build:npm && echo 'Preview mode started'",
+    "build:npm": "npm install && npm run build",
+    "build": "echo 'Build completed'",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix"
+  },
+  "keywords": [
+    "miniprogram",
+    "catering",
+    "flexible-work",
+    "tdesign"
+  ],
+  "author": "Shanghai Sovitx Co., Ltd",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bootstrap-icons": "^1.13.1",
+    "tdesign-miniprogram": "^1.9.5"
+  },
+  "devDependencies": {
+    "@types/wechat-miniprogram": "^3.4.0",
+    "typescript": "^4.9.0"
+  }
+}

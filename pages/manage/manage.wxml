@@ -1,0 +1,4 @@
+<!--pages/manage/manage.wxml-->
+<view class="manage-container">
+  <t-empty description="管理功能开发中" />
+</view>

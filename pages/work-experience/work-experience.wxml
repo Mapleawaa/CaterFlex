@@ -1,0 +1,175 @@
+<!--pages/work-experience/work-experience.wxml-->
+<view class="work-experience-container">
+  <!-- 头部操作 -->
+  <view class="header-section">
+    <t-button theme="primary" size="medium" bindtap="onShowAddDialog">
+      <t-icon name="add" size="32rpx" />
+      <text>添加工作经验</text>
+    </t-button>
+  </view>
+
+  <!-- 经验列表 -->
+  <view class="experience-list">
+    <view 
+      class="experience-card" 
+      wx:for="{{experiences}}" 
+      wx:key="index"
+    >
+      <view class="card-header">
+        <view class="company-info">
+          <view class="company-name">{{item.companyName}}</view>
+          <view class="position">{{item.position}}</view>
+        </view>
+        <view class="card-actions">
+          <t-icon 
+            name="edit" 
+            size="32rpx" 
+            color="var(--primary-color)"
+            bindtap="onEditExperience"
+            data-index="{{index}}"
+          />
+          <t-icon 
+            name="delete" 
+            size="32rpx" 
+            color="var(--error-color)"
+            bindtap="onDeleteExperience"
+            data-index="{{index}}"
+          />
+        </view>
+      </view>
+
+      <view class="work-period">
+        {{item.startDate}} - {{item.endDate || '至今'}}
+      </view>
+
+      <view class="description" wx:if="{{item.description}}">
+        {{item.description}}
+      </view>
+
+      <view class="skills-section" wx:if="{{item.skills && item.skills.length > 0}}">
+        <t-tag 
+          wx:for="{{item.skills}}" 
+          wx:key="skill"
+          wx:for-item="skill"
+          size="small" 
+          theme="light"
+          class="skill-tag"
+        >
+          {{skill}}
+        </t-tag>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-section" wx:if="{{!loading && experiences.length === 0}}">
+    <t-empty description="暂无工作经验，点击上方按钮添加" />
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading}}">
+    <t-loading theme="circular" size="40rpx" text="加载中..." />
+  </view>
+</view>
+
+<!-- 添加/编辑对话框 -->
+<t-popup 
+  visible="{{showAddDialog}}" 
+  placement="bottom"
+  bindvisible-change="onCloseDialog"
+>
+  <view class="dialog-content">
+    <view class="dialog-header">
+      <view class="dialog-title">{{editingIndex >= 0 ? '编辑' : '添加'}}工作经验</view>
+      <t-icon name="close" size="32rpx" bindtap="onCloseDialog" />
+    </view>
+
+    <view class="dialog-form">
+      <!-- 公司名称 -->
+      <view class="form-item">
+        <view class="form-label">公司名称 *</view>
+        <t-input
+          value="{{formData.companyName}}"
+          placeholder="请输入公司名称"
+          bindchange="onInputChange"
+          data-field="companyName"
+        />
+      </view>
+
+      <!-- 职位 -->
+      <view class="form-item">
+        <view class="form-label">职位 *</view>
+        <t-input
+          value="{{formData.position}}"
+          placeholder="请输入职位名称"
+          bindchange="onInputChange"
+          data-field="position"
+        />
+      </view>
+
+      <!-- 开始日期 -->
+      <view class="form-item">
+        <view class="form-label">开始日期 *</view>
+        <picker 
+          mode="date" 
+          value="{{formData.startDate}}" 
+          bindchange="onDateChange"
+          data-field="startDate"
+        >
+          <view class="picker-input">
+            {{formData.startDate || '请选择开始日期'}}
+          </view>
+        </picker>
+      </view>
+
+      <!-- 结束日期 -->
+      <view class="form-item">
+        <view class="form-label">结束日期</view>
+        <picker 
+          mode="date" 
+          value="{{formData.endDate}}" 
+          bindchange="onDateChange"
+          data-field="endDate"
+        >
+          <view class="picker-input">
+            {{formData.endDate || '请选择结束日期（可不填）'}}
+          </view>
+        </picker>
+      </view>
+
+      <!-- 工作技能 -->
+      <view class="form-item">
+        <view class="form-label">掌握技能</view>
+        <t-checkbox-group value="{{selectedSkills}}" bindchange="onSkillChange">
+          <view class="skills-grid">
+            <t-checkbox 
+              wx:for="{{skillOptions}}" 
+              wx:key="*this"
+              value="{{item}}" 
+              label="{{item}}"
+              class="skill-checkbox"
+            />
+          </view>
+        </t-checkbox-group>
+      </view>
+
+      <!-- 工作描述 -->
+      <view class="form-item">
+        <view class="form-label">工作描述</view>
+        <t-textarea
+          value="{{formData.description}}"
+          placeholder="请描述主要工作内容和职责..."
+          maxlength="200"
+          indicator
+          bindchange="onInputChange"
+          data-field="description"
+        />
+      </view>
+    </view>
+
+    <view class="dialog-actions">
+      <t-button theme="light" bindtap="onCloseDialog">取消</t-button>
+      <t-button theme="primary" bindtap="onSaveExperience">保存</t-button>
+    </view>
+  </view>
+</t-popup>

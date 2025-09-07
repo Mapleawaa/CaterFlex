@@ -1,0 +1,103 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "test_user",
+      "phone": "13800138000",
+      "name": "张三",
+      "avatar": "https://via.placeholder.com/100",
+      "role": "worker",
+      "status": "active",
+      "created_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "username": "company_admin",
+      "phone": "13900139000",
+      "name": "李经理",
+      "avatar": "https://via.placeholder.com/100",
+      "role": "company",
+      "status": "active",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "companies": [
+    {
+      "id": 1,
+      "name": "美味餐厅",
+      "address": "上海市浦东新区张江高科技园区",
+      "contact": "李经理",
+      "phone": "021-12345678",
+      "business_license": "91310000123456789X",
+      "status": "verified"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 1,
+      "company_id": 1,
+      "title": "服务员",
+      "description": "负责餐厅日常服务工作",
+      "salary": 25,
+      "salary_unit": "hour",
+      "work_date": "2024-01-15",
+      "work_time": "11:00-14:00",
+      "location": "上海市浦东新区",
+      "requirements": "有餐饮服务经验优先",
+      "status": "published",
+      "created_at": "2024-01-10T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "company_id": 1,
+      "title": "厨师助理",
+      "description": "协助主厨完成菜品制作",
+      "salary": 30,
+      "salary_unit": "hour",
+      "work_date": "2024-01-16",
+      "work_time": "17:00-21:00",
+      "location": "上海市浦东新区",
+      "requirements": "有厨房工作经验",
+      "status": "published",
+      "created_at": "2024-01-10T00:00:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "job_id": 1,
+      "worker_id": 1,
+      "company_id": 1,
+      "status": "completed",
+      "work_hours": 3,
+      "total_amount": 75,
+      "check_in_time": "2024-01-15T11:00:00Z",
+      "check_out_time": "2024-01-15T14:00:00Z",
+      "created_at": "2024-01-15T00:00:00Z"
+    }
+  ],
+  "attendance": [
+    {
+      "id": 1,
+      "order_id": 1,
+      "worker_id": 1,
+      "check_in_time": "2024-01-15T11:00:00Z",
+      "check_out_time": "2024-01-15T14:00:00Z",
+      "location": "上海市浦东新区张江高科技园区",
+      "work_hours": 3,
+      "status": "completed"
+    }
+  ],
+  "certificates": [
+    {
+      "id": 1,
+      "worker_id": 1,
+      "type": "health_certificate",
+      "name": "健康证",
+      "number": "H2024010001",
+      "issue_date": "2024-01-01",
+      "expire_date": "2025-01-01",
+      "status": "valid"
+    }
+  ]
+}

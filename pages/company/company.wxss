@@ -1,0 +1,4 @@
+/* pages/company/company.wxss */
+.company-container {
+  padding: 120rpx 32rpx;
+}

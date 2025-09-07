@@ -1,0 +1,68 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/profile/profile",
+    "pages/personal-info/personal-info",
+    "pages/work-experience/work-experience",
+    "pages/certificates/certificates",
+    "pages/settings/settings",
+    "pages/jobs/jobs",
+    "pages/job-detail/job-detail",
+    "pages/orders/orders",
+    "pages/checkin/checkin",
+    "pages/attendance-history/attendance-history",
+    "pages/salary/salary",
+    "pages/company/company",
+    "pages/publish-job/publish-job",
+    "pages/manage/manage"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1976D2",
+    "navigationBarTitleText": "餐饮灵活用工",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#1976D2",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/jobs/jobs",
+        "text": "岗位"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false,
+  "navigateToMiniProgramAppIdList": [],
+  "usingComponents": {},
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于为您推荐附近的工作岗位"
+    },
+    "scope.camera": {
+      "desc": "需要使用您的摄像头进行人脸识别打卡"
+    }
+  },
+  "requiredBackgroundModes": ["location"]
+}

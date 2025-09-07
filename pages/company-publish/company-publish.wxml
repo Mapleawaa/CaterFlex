@@ -1,0 +1,439 @@
+<!--pages/company-publish/company-publish.wxml-->
+<view class="publish-container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="header-title">发布用工需求</view>
+    <view class="header-desc">详细描述您的用工需求，系统将为您智能匹配合适的人员</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text class="title-icon">📋</text>
+      <text class="title-text">基本信息</text>
+    </view>
+    
+    <view class="form-group">
+      <view class="form-label">岗位名称 <text class="required">*</text></view>
+      <input 
+        class="form-input" 
+        placeholder="请输入岗位名称，如：服务员、厨师助理"
+        value="{{formData.title}}"
+        bindinput="onInputChange"
+        data-field="title"
+      />
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">岗位类型 <text class="required">*</text></view>
+      <view class="picker-wrapper">
+        <picker 
+          mode="selector" 
+          range="{{jobTypes}}" 
+          range-key="name"
+          value="{{formData.jobTypeIndex}}"
+          bindchange="onJobTypeChange"
+        >
+          <view class="picker-display">
+            <text class="picker-text">{{jobTypes[formData.jobTypeIndex].name || '请选择岗位类型'}}</text>
+            <text class="picker-arrow">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">工作地点 <text class="required">*</text></view>
+      <view class="location-input">
+        <input 
+          class="form-input location-text" 
+          placeholder="请输入详细地址"
+          value="{{formData.location}}"
+          bindinput="onInputChange"
+          data-field="location"
+        />
+        <button class="location-btn" bindtap="onSelectLocation">
+          <text class="bi bi-geo-alt"></text>
+          定位
+        </button>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">薪资待遇 <text class="required">*</text></view>
+      <view class="salary-input">
+        <input 
+          class="form-input salary-amount" 
+          type="number"
+          placeholder="金额"
+          value="{{formData.salary}}"
+          bindinput="onInputChange"
+          data-field="salary"
+        />
+        <picker 
+          mode="selector" 
+          range="{{salaryUnits}}" 
+          value="{{formData.salaryUnitIndex}}"
+          bindchange="onSalaryUnitChange"
+        >
+          <view class="salary-unit">
+            <text>{{salaryUnits[formData.salaryUnitIndex] || '单位'}}</text>
+            <text class="picker-arrow">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作时间 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text class="title-icon">⏰</text>
+      <text class="title-text">工作时间</text>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">工作日期 <text class="required">*</text></view>
+      <view class="date-range">
+        <picker 
+          mode="date" 
+          value="{{formData.startDate}}"
+          bindchange="onStartDateChange"
+        >
+          <view class="date-picker">
+            <text>{{formData.startDate || '开始日期'}}</text>
+            <text class="bi bi-calendar"></text>
+          </view>
+        </picker>
+        <text class="date-separator">至</text>
+        <picker 
+          mode="date" 
+          value="{{formData.endDate}}"
+          bindchange="onEndDateChange"
+        >
+          <view class="date-picker">
+            <text>{{formData.endDate || '结束日期'}}</text>
+            <text class="bi bi-calendar"></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">工作时段 <text class="required">*</text></view>
+      <view class="time-range">
+        <picker 
+          mode="time" 
+          value="{{formData.startTime}}"
+          bindchange="onStartTimeChange"
+        >
+          <view class="time-picker">
+            <text>{{formData.startTime || '开始时间'}}</text>
+            <text class="bi bi-clock"></text>
+          </view>
+        </picker>
+        <text class="time-separator">至</text>
+        <picker 
+          mode="time" 
+          value="{{formData.endTime}}"
+          bindchange="onEndTimeChange"
+        >
+          <view class="time-picker">
+            <text>{{formData.endTime || '结束时间'}}</text>
+            <text class="bi bi-clock"></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">工作模式</view>
+      <view class="work-mode-options">
+        <view 
+          class="mode-option {{formData.workMode === 'full-time' ? 'active' : ''}}"
+          bindtap="onWorkModeChange"
+          data-mode="full-time"
+        >
+          <text class="mode-icon">🕘</text>
+          <text class="mode-text">全职</text>
+        </view>
+        <view 
+          class="mode-option {{formData.workMode === 'part-time' ? 'active' : ''}}"
+          bindtap="onWorkModeChange"
+          data-mode="part-time"
+        >
+          <text class="mode-icon">⏰</text>
+          <text class="mode-text">兼职</text>
+        </view>
+        <view 
+          class="mode-option {{formData.workMode === 'temporary' ? 'active' : ''}}"
+          bindtap="onWorkModeChange"
+          data-mode="temporary"
+        >
+          <text class="mode-icon">📅</text>
+          <text class="mode-text">临时</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 人员要求 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text class="title-icon">👥</text>
+      <text class="title-text">人员要求</text>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">招聘人数 <text class="required">*</text></view>
+      <view class="number-input">
+        <button class="number-btn" bindtap="onNumberChange" data-field="recruitCount" data-action="decrease">-</button>
+        <input 
+          class="number-value" 
+          type="number"
+          value="{{formData.recruitCount}}"
+          bindinput="onInputChange"
+          data-field="recruitCount"
+        />
+        <button class="number-btn" bindtap="onNumberChange" data-field="recruitCount" data-action="increase">+</button>
+        <text class="number-unit">人</text>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">年龄要求</view>
+      <view class="age-range">
+        <input 
+          class="age-input" 
+          type="number"
+          placeholder="最小"
+          value="{{formData.minAge}}"
+          bindinput="onInputChange"
+          data-field="minAge"
+        />
+        <text class="age-separator">-</text>
+        <input 
+          class="age-input" 
+          type="number"
+          placeholder="最大"
+          value="{{formData.maxAge}}"
+          bindinput="onInputChange"
+          data-field="maxAge"
+        />
+        <text class="age-unit">岁</text>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">性别要求</view>
+      <view class="gender-options">
+        <view 
+          class="gender-option {{formData.gender === 'unlimited' ? 'active' : ''}}"
+          bindtap="onGenderChange"
+          data-gender="unlimited"
+        >
+          不限
+        </view>
+        <view 
+          class="gender-option {{formData.gender === 'male' ? 'active' : ''}}"
+          bindtap="onGenderChange"
+          data-gender="male"
+        >
+          男性
+        </view>
+        <view 
+          class="gender-option {{formData.gender === 'female' ? 'active' : ''}}"
+          bindtap="onGenderChange"
+          data-gender="female"
+        >
+          女性
+        </view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">经验要求</view>
+      <view class="experience-options">
+        <view 
+          class="exp-option {{formData.experience === 'none' ? 'active' : ''}}"
+          bindtap="onExperienceChange"
+          data-exp="none"
+        >
+          无经验
+        </view>
+        <view 
+          class="exp-option {{formData.experience === 'some' ? 'active' : ''}}"
+          bindtap="onExperienceChange"
+          data-exp="some"
+        >
+          有经验优先
+        </view>
+        <view 
+          class="exp-option {{formData.experience === 'required' ? 'active' : ''}}"
+          bindtap="onExperienceChange"
+          data-exp="required"
+        >
+          必须有经验
+        </view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">技能要求</view>
+      <view class="skills-input">
+        <view class="skills-tags">
+          <view 
+            class="skill-tag"
+            wx:for="{{formData.requiredSkills}}"
+            wx:key="*this"
+          >
+            <text>{{item}}</text>
+            <text class="remove-skill" bindtap="onRemoveSkill" data-skill="{{item}}">×</text>
+          </view>
+        </view>
+        <view class="add-skill">
+          <input 
+            class="skill-input" 
+            placeholder="输入技能要求，回车添加"
+            value="{{newSkill}}"
+            bindinput="onSkillInput"
+            bindconfirm="onAddSkill"
+          />
+          <button class="add-skill-btn" bindtap="onAddSkill">添加</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作描述 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text class="title-icon">📝</text>
+      <text class="title-text">工作描述</text>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">工作内容 <text class="required">*</text></view>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请详细描述工作内容、职责和要求..."
+        value="{{formData.description}}"
+        bindinput="onInputChange"
+        data-field="description"
+        maxlength="500"
+      />
+      <view class="char-count">{{formData.description.length}}/500</view>
+    </view>
+
+    <view class="form-group">
+      <view class="form-label">福利待遇</view>
+      <view class="benefits-options">
+        <view 
+          class="benefit-item {{item.selected ? 'selected' : ''}}"
+          wx:for="{{benefitOptions}}"
+          wx:key="id"
+          bindtap="onBenefitToggle"
+          data-id="{{item.id}}"
+        >
+          <text class="benefit-icon">{{item.icon}}</text>
+          <text class="benefit-text">{{item.name}}</text>
+          <text class="benefit-check">{{item.selected ? '✓' : ''}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 紧急程度 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text class="title-icon">🚨</text>
+      <text class="title-text">紧急程度</text>
+    </view>
+
+    <view class="urgency-options">
+      <view 
+        class="urgency-item {{formData.urgency === 'low' ? 'active' : ''}}"
+        bindtap="onUrgencyChange"
+        data-urgency="low"
+      >
+        <view class="urgency-indicator low"></view>
+        <view class="urgency-info">
+          <text class="urgency-title">普通</text>
+          <text class="urgency-desc">3-7天内到岗</text>
+        </view>
+      </view>
+      <view 
+        class="urgency-item {{formData.urgency === 'medium' ? 'active' : ''}}"
+        bindtap="onUrgencyChange"
+        data-urgency="medium"
+      >
+        <view class="urgency-indicator medium"></view>
+        <view class="urgency-info">
+          <text class="urgency-title">紧急</text>
+          <text class="urgency-desc">1-2天内到岗</text>
+        </view>
+      </view>
+      <view 
+        class="urgency-item {{formData.urgency === 'high' ? 'active' : ''}}"
+        bindtap="onUrgencyChange"
+        data-urgency="high"
+      >
+        <view class="urgency-indicator high"></view>
+        <view class="urgency-info">
+          <text class="urgency-title">非常紧急</text>
+          <text class="urgency-desc">今天就要到岗</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="preview-btn" bindtap="onPreview">预览</button>
+    <button class="publish-btn" bindtap="onPublish" disabled="{{publishing}}">
+      {{publishing ? '发布中...' : '立即发布'}}
+    </button>
+  </view>
+
+  <!-- 预览弹窗 -->
+  <view class="preview-modal {{showPreview ? 'show' : ''}}" wx:if="{{showPreview}}">
+    <view class="modal-mask" bindtap="onClosePreview"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">岗位预览</text>
+        <text class="modal-close" bindtap="onClosePreview">×</text>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="preview-job-card">
+          <view class="job-header">
+            <view class="job-title">{{formData.title}}</view>
+            <view class="job-salary">{{formData.salary}}元/{{salaryUnits[formData.salaryUnitIndex]}}</view>
+          </view>
+          <view class="job-info">
+            <view class="info-item">
+              <text class="info-label">工作地点：</text>
+              <text class="info-value">{{formData.location}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">工作时间：</text>
+              <text class="info-value">{{formData.startDate}} 至 {{formData.endDate}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">工作时段：</text>
+              <text class="info-value">{{formData.startTime}} - {{formData.endTime}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">招聘人数：</text>
+              <text class="info-value">{{formData.recruitCount}}人</text>
+            </view>
+          </view>
+          <view class="job-description">{{formData.description}}</view>
+        </view>
+      </scroll-view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="onClosePreview">继续编辑</button>
+        <button class="modal-btn confirm" bindtap="onConfirmPublish">确认发布</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,173 @@
+<!--pages/jobs/jobs.wxml-->
+<view class="jobs-container">
+  <!-- 搜索和筛选区域 -->
+  <view class="search-section">
+    <view class="search-bar">
+      <input
+        class="search-input"
+        value="{{searchKeyword}}"
+        placeholder="搜索岗位、企业名称"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+      <button class="search-btn" bindtap="onSearch">搜索</button>
+    </view>
+    
+    <!-- 筛选按钮 -->
+    <view class="filter-bar">
+      <view class="filter-item {{filters.salary ? 'active' : ''}}" bindtap="onShowFilter" data-type="salary">
+        <text>薪资{{filters.salary ? '✓' : ''}}</text>
+      </view>
+      <view class="filter-item {{filters.distance ? 'active' : ''}}" bindtap="onShowFilter" data-type="distance">
+        <text>距离{{filters.distance ? '✓' : ''}}</text>
+      </view>
+      <view class="filter-item {{filters.workTime ? 'active' : ''}}" bindtap="onShowFilter" data-type="workTime">
+        <text>时间{{filters.workTime ? '✓' : ''}}</text>
+      </view>
+      <view class="filter-item" bindtap="onShowSort">
+        <text>排序</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 岗位列表 -->
+  <view class="jobs-list" wx:if="{{jobs.length > 0}}">
+    <view 
+      class="job-card" 
+      wx:for="{{jobs}}" 
+      wx:key="id"
+      bindtap="onJobTap"
+      data-job="{{item}}"
+    >
+      <view class="job-header">
+        <view class="job-title">{{item.title}}</view>
+        <view class="job-salary">{{item.salary}}元/{{item.salaryUnit}}</view>
+      </view>
+      
+      <view class="job-info">
+        <view class="company-name">{{item.companyName}}</view>
+        <view class="job-location">
+          <text class="location-icon">📍</text>
+          <text>{{item.location}} · {{item.distance}}m</text>
+        </view>
+      </view>
+      
+      <view class="job-desc">{{item.description}}</view>
+      
+      <view class="job-tags" wx:if="{{item.requirements && item.requirements.length > 0}}">
+        <text class="job-tag" wx:for="{{item.requirements}}" wx:key="*this" wx:for-item="tag">
+          {{tag}}
+        </text>
+      </view>
+      
+      <view class="job-footer">
+        <view class="job-time">{{item.workTime}}</view>
+        <view class="job-status">
+          <text class="status-tag status-{{item.urgency}}">{{item.status}}</text>
+          <text class="publish-time">{{item.publishTime}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading && !refreshing}}">
+    <text class="loading-icon">⏳</text>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-section" wx:if="{{!loading && jobs.length === 0}}">
+    <text class="empty-icon">💼</text>
+    <text class="empty-text">暂无岗位信息</text>
+    <text class="empty-desc">试试调整搜索条件或筛选器</text>
+  </view>
+
+  <!-- 筛选弹窗 -->
+  <view class="filter-popup {{showFilterPopup ? 'show' : ''}}" wx:if="{{showFilterPopup}}">
+    <view class="popup-mask" bindtap="onHideFilter"></view>
+    <view class="popup-content">
+      <view class="popup-header">
+        <text class="popup-title">{{currentFilterType === 'salary' ? '薪资筛选' : currentFilterType === 'distance' ? '距离筛选' : '时间筛选'}}</text>
+        <text class="popup-close" bindtap="onHideFilter">✕</text>
+      </view>
+      
+      <!-- 薪资筛选 -->
+      <view class="filter-options" wx:if="{{currentFilterType === 'salary'}}">
+        <view class="filter-option {{filters.salary === '' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="salary" data-value="">
+          不限
+        </view>
+        <view class="filter-option {{filters.salary === '100-150' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="salary" data-value="100-150">
+          100-150元/天
+        </view>
+        <view class="filter-option {{filters.salary === '150-200' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="salary" data-value="150-200">
+          150-200元/天
+        </view>
+        <view class="filter-option {{filters.salary === '200+' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="salary" data-value="200+">
+          200元以上/天
+        </view>
+      </view>
+      
+      <!-- 距离筛选 -->
+      <view class="filter-options" wx:if="{{currentFilterType === 'distance'}}">
+        <view class="filter-option {{filters.distance === '' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="distance" data-value="">
+          不限
+        </view>
+        <view class="filter-option {{filters.distance === '1000' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="distance" data-value="1000">
+          1公里内
+        </view>
+        <view class="filter-option {{filters.distance === '3000' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="distance" data-value="3000">
+          3公里内
+        </view>
+        <view class="filter-option {{filters.distance === '5000' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="distance" data-value="5000">
+          5公里内
+        </view>
+      </view>
+      
+      <!-- 时间筛选 -->
+      <view class="filter-options" wx:if="{{currentFilterType === 'workTime'}}">
+        <view class="filter-option {{filters.workTime === '' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="workTime" data-value="">
+          不限
+        </view>
+        <view class="filter-option {{filters.workTime === 'morning' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="workTime" data-value="morning">
+          上午班
+        </view>
+        <view class="filter-option {{filters.workTime === 'afternoon' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="workTime" data-value="afternoon">
+          下午班
+        </view>
+        <view class="filter-option {{filters.workTime === 'evening' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="workTime" data-value="evening">
+          晚班
+        </view>
+        <view class="filter-option {{filters.workTime === 'flexible' ? 'active' : ''}}" bindtap="onSelectFilter" data-type="workTime" data-value="flexible">
+          灵活排班
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 排序弹窗 -->
+  <view class="sort-popup {{showSortPopup ? 'show' : ''}}" wx:if="{{showSortPopup}}">
+    <view class="popup-mask" bindtap="onHideSort"></view>
+    <view class="popup-content">
+      <view class="popup-header">
+        <text class="popup-title">排序方式</text>
+        <text class="popup-close" bindtap="onHideSort">✕</text>
+      </view>
+      
+      <view class="sort-options">
+        <view class="sort-option {{sortType === 'default' ? 'active' : ''}}" bindtap="onSelectSort" data-value="default">
+          默认排序
+        </view>
+        <view class="sort-option {{sortType === 'salary_desc' ? 'active' : ''}}" bindtap="onSelectSort" data-value="salary_desc">
+          薪资从高到低
+        </view>
+        <view class="sort-option {{sortType === 'distance_asc' ? 'active' : ''}}" bindtap="onSelectSort" data-value="distance_asc">
+          距离从近到远
+        </view>
+        <view class="sort-option {{sortType === 'time_desc' ? 'active' : ''}}" bindtap="onSelectSort" data-value="time_desc">
+          发布时间最新
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,113 @@
+<!--pages/certificates/certificates.wxml-->
+<view class="certificates-container">
+  <!-- 提示信息 -->
+  <view class="tips-section">
+    <text class="tips-icon">ℹ️</text>
+    <text class="tips-text">请上传清晰的证件照片，确保信息完整可见</text>
+  </view>
+
+  <!-- 证件列表 -->
+  <view class="certificates-list">
+    <view 
+      class="certificate-item" 
+      wx:for="{{certificateTypes}}" 
+      wx:key="value"
+    >
+      <view class="certificate-header">
+        <view class="certificate-info">
+          <view class="certificate-name">
+            {{item.label}}
+            <text wx:if="{{item.required}}" class="required-tag">必需</text>
+          </view>
+          <view class="certificate-status">
+            <text class="status-tag status-{{getCertificateStatus(item.value).theme}}">
+              {{getCertificateStatus(item.value).text}}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 证件图片区域 -->
+      <view class="certificate-content">
+        <block wx:if="{{certificates[item.value]}}">
+          <!-- 已上传证件 -->
+          <view class="certificate-image-wrapper">
+            <image 
+              class="certificate-image"
+              src="{{certificates[item.value].imageUrl}}"
+              mode="aspectFill"
+              bindtap="onPreviewCertificate"
+              data-url="{{certificates[item.value].imageUrl}}"
+            />
+            <view class="image-overlay">
+              <text 
+                class="delete-btn"
+                bindtap="onDeleteCertificate"
+                data-type="{{item.value}}"
+              >🗑️</text>
+            </view>
+          </view>
+          
+          <!-- 证件信息 -->
+          <view class="certificate-details">
+            <view class="upload-time">
+              上传时间：{{certificates[item.value].uploadTime}}
+            </view>
+            <view class="certificate-note" wx:if="{{certificates[item.value].note}}">
+              备注：{{certificates[item.value].note}}
+            </view>
+          </view>
+        </block>
+
+        <block wx:else>
+          <!-- 未上传证件 -->
+          <view 
+            class="upload-area"
+            bindtap="onUploadCertificate"
+            data-type="{{item.value}}"
+          >
+            <text class="upload-icon">📷</text>
+            <view class="upload-text">点击上传{{item.label}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 上传须知 -->
+  <view class="notice-section">
+    <view class="notice-title">上传须知</view>
+    <view class="notice-list">
+      <view class="notice-item">
+        <text class="check-icon">✅</text>
+        <text>请确保证件照片清晰完整，信息可见</text>
+      </view>
+      <view class="notice-item">
+        <text class="check-icon">✅</text>
+        <text>健康证必须在有效期内</text>
+      </view>
+      <view class="notice-item">
+        <text class="check-icon">✅</text>
+        <text>身份证需要正反面都清晰可见</text>
+      </view>
+      <view class="notice-item">
+        <text class="check-icon">✅</text>
+        <text>上传后将进行人工审核，请耐心等待</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading}}">
+    <text class="loading-icon">⏳</text>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 上传状态 -->
+  <view class="uploading-mask" wx:if="{{uploading}}">
+    <view class="uploading-content">
+      <text class="uploading-icon">📤</text>
+      <view class="uploading-text">上传中...</view>
+    </view>
+  </view>
+</view>

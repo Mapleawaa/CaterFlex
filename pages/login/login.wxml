@@ -1,0 +1,142 @@
+<!--pages/login/login.wxml-->
+<view class="login-container">
+  <!-- 头部Logo区域 -->
+  <view class="header-section">
+    <view class="logo-area">
+      <view class="app-logo">🍽️</view>
+      <view class="app-name">餐饮灵活用工</view>
+      <view class="app-desc">连接餐饮企业与兼职人员的专业平台</view>
+    </view>
+  </view>
+
+  <!-- 用户类型选择 -->
+  <view class="user-type-section">
+    <view class="type-options">
+      <view 
+        class="type-option {{userType === 'worker' ? 'active' : ''}}"
+        bindtap="onUserTypeChange"
+        data-type="worker"
+      >
+        我是求职者
+      </view>
+      <view 
+        class="type-option {{userType === 'company' ? 'active' : ''}}"
+        bindtap="onUserTypeChange"
+        data-type="company"
+      >
+        我是企业用户
+      </view>
+    </view>
+  </view>
+
+  <!-- 登录方式选择 -->
+  <view class="login-type-section">
+    <view class="type-tabs">
+      <view 
+        class="tab-item {{loginType === 'phone' ? 'active' : ''}}"
+        bindtap="onLoginTypeChange"
+        data-type="phone"
+      >
+        密码登录
+      </view>
+      <view 
+        class="tab-item {{loginType === 'sms' ? 'active' : ''}}"
+        bindtap="onLoginTypeChange"
+        data-type="sms"
+      >
+        验证码登录
+      </view>
+    </view>
+  </view>
+
+  <!-- 登录表单 -->
+  <view class="form-section">
+    <!-- 手机号输入 -->
+    <view class="input-group">
+      <input
+        class="form-input"
+        value="{{formData.phone}}"
+        placeholder="请输入手机号"
+        type="number"
+        maxlength="11"
+        bindinput="onInputChange"
+        data-field="phone"
+      />
+    </view>
+
+    <!-- 密码登录 -->
+    <view class="input-group" wx:if="{{loginType === 'phone'}}">
+      <input
+        class="form-input"
+        value="{{formData.password}}"
+        placeholder="请输入密码"
+        password="{{!showPassword}}"
+        bindinput="onInputChange"
+        data-field="password"
+      />
+      <view class="input-suffix" bindtap="onTogglePassword">
+        {{showPassword ? '隐藏' : '显示'}}
+      </view>
+    </view>
+
+    <!-- 验证码登录 -->
+    <view class="input-group sms-group" wx:if="{{loginType === 'sms'}}">
+      <input
+        class="form-input sms-input"
+        value="{{formData.smsCode}}"
+        placeholder="请输入验证码"
+        type="number"
+        maxlength="6"
+        bindinput="onInputChange"
+        data-field="smsCode"
+      />
+      <button
+        class="sms-btn {{smsCountdown > 0 ? 'disabled' : ''}}"
+        disabled="{{smsCountdown > 0}}"
+        bindtap="onSendSms"
+      >
+        {{smsCountdown > 0 ? smsCountdown + 's' : '获取验证码'}}
+      </button>
+    </view>
+
+    <!-- 协议勾选 -->
+    <view class="agreement-section">
+      <checkbox-group bindchange="onAgreementChange">
+        <label class="agreement-label">
+          <checkbox value="agree" checked="{{formData.agreementChecked}}" />
+          我已阅读并同意
+          <text class="link-text" bindtap="onViewAgreement" data-type="user">《用户协议》</text>
+          和
+          <text class="link-text" bindtap="onViewAgreement" data-type="privacy">《隐私政策》</text>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <!-- 登录按钮 -->
+    <button
+      class="login-btn {{loading ? 'loading' : ''}}"
+      disabled="{{loading}}"
+      bindtap="onLogin"
+    >
+      {{loading ? '登录中...' : '登录'}}
+    </button>
+
+    <!-- 微信登录 -->
+    <button class="wechat-login-btn" bindtap="onWechatLogin">
+      微信快速登录
+    </button>
+
+    <!-- 调试登录按钮 -->
+    <button class="debug-login-btn" bindtap="onDebugLogin">
+      <i class="bi bi-tools"></i> 调试登录 (测试专用)
+    </button>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="footer-section">
+    <view class="footer-links">
+      <text class="link-text" bindtap="onForgotPassword">忘记密码？</text>
+      <text class="link-text" bindtap="onGoRegister">立即注册</text>
+    </view>
+  </view>
+</view>

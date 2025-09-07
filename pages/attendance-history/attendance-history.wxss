@@ -1,0 +1,402 @@
+/* pages/attendance-history/attendance-history.wxss */
+
+.history-container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* 头部统计区域 */
+.stats-header {
+  background: linear-gradient(135deg, #1976D2, #1565C0);
+  padding: 40rpx 30rpx;
+  color: white;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.month-btn {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+}
+
+.month-btn:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.month-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin: 0 40rpx;
+}
+
+.month-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 筛选器区域 */
+.filter-section {
+  background: white;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.filter-scroll {
+  white-space: nowrap;
+  padding: 0 30rpx;
+}
+
+.filter-item {
+  display: inline-block;
+  padding: 16rpx 32rpx;
+  margin-right: 20rpx;
+  border-radius: 25rpx;
+  font-size: 28rpx;
+  color: #666;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.filter-item.active {
+  background: #1976D2;
+  color: white;
+}
+
+.filter-item:last-child {
+  margin-right: 0;
+}
+
+/* 记录区域 */
+.records-section {
+  padding: 30rpx;
+}
+
+/* 加载状态 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx;
+  color: #666;
+}
+
+.loading-icon {
+  font-size: 60rpx;
+  margin-bottom: 20rpx;
+  color: #1976D2;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+}
+
+/* 记录列表 */
+.records-list {
+  margin-bottom: 40rpx;
+}
+
+.date-group {
+  margin-bottom: 40rpx;
+}
+
+.date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #e0e0e0;
+  margin-bottom: 20rpx;
+}
+
+.date-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.weekday-text {
+  font-size: 24rpx;
+  color: #666;
+  margin-left: 10rpx;
+}
+
+.day-summary {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.work-hours {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.day-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.day-status.normal {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.day-status.late {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.day-status.early {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/* 记录卡片 */
+.record-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.record-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.record-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.record-type-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+}
+
+.record-type-icon.in {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.record-type-icon.out {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.record-details {
+  flex: 1;
+}
+
+.record-type-text {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.record-time {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.record-status {
+  margin-left: 20rpx;
+}
+
+.status-badge {
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 12rpx;
+}
+
+.status-badge.normal {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.status-badge.late {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.status-badge.early {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/* 记录详情 */
+.record-extra {
+  border-top: 1rpx solid #f0f0f0;
+  padding-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.extra-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.extra-item:last-child {
+  margin-bottom: 0;
+}
+
+.extra-icon {
+  font-size: 24rpx;
+  color: #666;
+  margin-right: 15rpx;
+  width: 30rpx;
+}
+
+.extra-text {
+  font-size: 26rpx;
+  color: #666;
+  flex: 1;
+}
+
+/* 记录操作 */
+.record-actions {
+  text-align: center;
+}
+
+.action-btn {
+  padding: 12rpx 24rpx;
+  background: #f8f9fa;
+  color: #666;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.action-btn:active {
+  background: #e9ecef;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx;
+  color: #999;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 30rpx;
+  color: #ddd;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  margin-bottom: 15rpx;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* 导出区域 */
+.export-section {
+  padding: 30rpx;
+  background: white;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.export-btn {
+  width: 100%;
+  padding: 24rpx;
+  background: #1976D2;
+  color: white;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rpx;
+}
+
+.export-btn:active {
+  background: #1565C0;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .stats-header {
+    padding: 30rpx 20rpx;
+  }
+  
+  .month-stats {
+    gap: 20rpx;
+  }
+  
+  .stat-value {
+    font-size: 40rpx;
+  }
+  
+  .records-section {
+    padding: 20rpx;
+  }
+  
+  .record-card {
+    padding: 20rpx;
+  }
+}

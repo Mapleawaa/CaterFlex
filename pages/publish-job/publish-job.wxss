@@ -1,0 +1,4 @@
+/* pages/publish-job/publish-job.wxss */
+.publish-job-container {
+  padding: 120rpx 32rpx;
+}

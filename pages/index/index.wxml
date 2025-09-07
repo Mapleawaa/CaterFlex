@@ -1,0 +1,248 @@
+<!--pages/index/index.wxml-->
+<view class="index-container">
+  <!-- 头部用户信息区域 -->
+  <view class="header-section">
+    <view class="user-card" wx:if="{{isLoggedIn}}">
+      <view class="user-info">
+        <image class="user-avatar" src="{{userInfo.avatar || 'https://via.placeholder.com/80x80/4A90E2/FFFFFF?text=头像'}}" />
+        <view class="user-details">
+          <view class="user-name">{{getGreeting()}}，{{userInfo.name || '用户'}}</view>
+          <view class="user-type">{{userType === 'worker' ? '求职者' : '企业用户'}}</view>
+        </view>
+      </view>
+      <view class="location-info" wx:if="{{currentLocation}}">
+        <text class="location-icon">📍</text>
+        <text class="location-text">{{currentLocation.address || '定位中...'}}</text>
+      </view>
+    </view>
+
+    <!-- 未登录状态 -->
+    <view class="welcome-card" wx:if="{{!isLoggedIn}}">
+      <view class="app-logo">
+        <i class="bi bi-cup-hot-fill"></i>
+      </view>
+      <view class="welcome-text">
+        <view class="app-name">餐饮灵活用工</view>
+        <view class="app-desc">连接餐饮企业与兼职人员</view>
+      </view>
+      <button class="login-btn" bindtap="onGoLogin">立即登录</button>
+    </view>
+  </view>
+
+  <!-- 快捷功能区域 -->
+  <view class="quick-actions-section" wx:if="{{isLoggedIn}}">
+    <view class="action-grid">
+      <view 
+        class="action-item"
+        wx:for="{{userType === 'worker' ? workerActions : companyActions}}"
+        wx:key="id"
+        bindtap="onActionTap"
+        data-action="{{item}}"
+      >
+        <view class="action-icon" style="background-color: {{item.color}};">
+          <i class="bi {{item.icon}}"></i>
+        </view>
+        <view class="action-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 求职者专属内容 -->
+  <view wx:if="{{isLoggedIn && userType === 'worker'}}">
+    <!-- 个性化推荐 -->
+    <view class="recommendation-section" wx:if="{{recommendedJobs.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">
+          <i class="bi bi-bullseye title-icon"></i>
+          <text>为您推荐</text>
+        </view>
+        <view class="section-action" bindtap="onViewMoreRecommended">
+          <text>更多</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      
+      <scroll-view class="jobs-scroll" scroll-x="true" show-scrollbar="false">
+        <view class="jobs-list horizontal">
+          <view 
+            class="job-card horizontal"
+            wx:for="{{recommendedJobs}}"
+            wx:key="id"
+            bindtap="onJobTap"
+            data-job="{{item}}"
+          >
+            <view class="job-header">
+              <view class="job-title">{{item.title}}</view>
+              <view class="job-salary">{{item.salary}}元/{{item.salaryUnit}}</view>
+            </view>
+            <view class="job-company">{{item.companyName}}</view>
+            <view class="job-location">
+              <text class="location-icon">📍</text>
+              <text>{{item.distance}}m</text>
+            </view>
+            <view class="job-tags">
+              <text class="job-tag" wx:for="{{item.requirements}}" wx:key="*this" wx:for-item="tag" wx:if="{{index < 2}}">
+                {{tag}}
+              </text>
+            </view>
+            <view class="match-score">
+              <text class="match-text">匹配度</text>
+              <text class="match-value">{{item.matchScore}}%</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 附近岗位 -->
+    <view class="nearby-section" wx:if="{{nearbyJobs.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">
+          <i class="bi bi-geo-alt-fill title-icon"></i>
+          <text>附近岗位</text>
+        </view>
+        <view class="section-action" bindtap="onViewMoreNearby">
+          <text>更多</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      
+      <view class="jobs-list vertical">
+        <view 
+          class="job-card vertical"
+          wx:for="{{nearbyJobs}}"
+          wx:key="id"
+          bindtap="onJobTap"
+          data-job="{{item}}"
+        >
+          <view class="job-main">
+            <view class="job-info">
+              <view class="job-title">{{item.title}}</view>
+              <view class="job-company">{{item.companyName}}</view>
+              <view class="job-location">
+                <text class="location-icon">📍</text>
+                <text>{{item.location}} · {{item.distance}}m</text>
+              </view>
+            </view>
+            <view class="job-salary">{{item.salary}}元/{{item.salaryUnit}}</view>
+          </view>
+          <view class="job-footer">
+            <view class="job-time">{{item.workTime}}</view>
+            <text class="job-status status-{{item.urgency}}">{{item.status}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 热门岗位 -->
+    <view class="hot-jobs-section" wx:if="{{hotJobs.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">
+          <i class="bi bi-fire title-icon"></i>
+          <text>热门岗位</text>
+        </view>
+        <view class="section-action" bindtap="onViewMoreHot">
+          <text>更多</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      
+      <view class="hot-jobs-grid">
+        <view 
+          class="hot-job-item"
+          wx:for="{{hotJobs}}"
+          wx:key="id"
+          bindtap="onJobTap"
+          data-job="{{item}}"
+        >
+          <view class="hot-job-title">{{item.title}}</view>
+          <view class="hot-job-salary">{{item.salary}}元/{{item.salaryUnit}}</view>
+          <view class="hot-job-count">{{item.applyCount}}人申请</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 企业用户专属内容 -->
+  <view wx:if="{{isLoggedIn && userType === 'company'}}">
+    <!-- 数据概览 -->
+    <view class="stats-section">
+      <view class="section-title">
+        <i class="bi bi-bar-chart-fill title-icon"></i>
+        <text>数据概览</text>
+      </view>
+      
+      <view class="stats-grid">
+        <view class="stat-item">
+          <view class="stat-number">{{companyStats.activeJobs || 0}}</view>
+          <view class="stat-label">活跃岗位</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">{{companyStats.todayApplications || 0}}</view>
+          <view class="stat-label">今日申请</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">{{companyStats.workingStaff || 0}}</view>
+          <view class="stat-label">在职员工</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">{{companyStats.monthRevenue || 0}}</view>
+          <view class="stat-label">本月营收</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 推荐求职者 -->
+    <view class="recommended-workers-section" wx:if="{{recommendedWorkers.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">
+          <i class="bi bi-people-fill title-icon"></i>
+          <text>推荐求职者</text>
+        </view>
+        <view class="section-action" bindtap="onViewMoreWorkers">
+          <text>更多</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      
+      <view class="workers-list">
+        <view 
+          class="worker-card"
+          wx:for="{{recommendedWorkers}}"
+          wx:key="id"
+          bindtap="onWorkerTap"
+          data-worker="{{item}}"
+        >
+          <image class="worker-avatar" src="{{item.avatar}}" />
+          <view class="worker-info">
+            <view class="worker-name">{{item.name}}</view>
+            <view class="worker-experience">{{item.experience}}</view>
+            <view class="worker-skills">
+              <text class="skill-tag" wx:for="{{item.skills}}" wx:key="*this" wx:for-item="skill" wx:if="{{index < 3}}">
+                {{skill}}
+              </text>
+            </view>
+          </view>
+          <view class="worker-rating">
+            <text class="rating-score">{{item.rating}}</text>
+            <text class="rating-star">⭐</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-section" wx:if="{{loading}}">
+    <i class="bi bi-arrow-clockwise loading-icon"></i>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-section" wx:if="{{isLoggedIn && !loading && isEmpty}}">
+    <i class="bi bi-clipboard-x empty-icon"></i>
+    <text class="empty-text">暂无推荐内容</text>
+    <text class="empty-desc">完善个人资料可获得更精准的推荐</text>
+    <button class="complete-profile-btn" bindtap="onCompleteProfile">完善资料</button>
+  </view>
+</view>

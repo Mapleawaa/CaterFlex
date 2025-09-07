@@ -1,0 +1,390 @@
+/* pages/profile/profile.wxss */
+
+.profile-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 头部用户信息 */
+.header-section {
+  background: linear-gradient(135deg, #1976D2 0%, #42A5F5 100%);
+  padding: 60rpx 30rpx 40rpx;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10rpx);
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin-right: 30rpx;
+  border: 6rpx solid #E3F2FD;
+  background: #f0f0f0;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1976D2;
+  margin-bottom: 12rpx;
+}
+
+.user-type {
+  margin-bottom: 12rpx;
+}
+
+.type-tag {
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.type-tag.worker {
+  background: #E8F5E8;
+  color: #4CAF50;
+}
+
+.type-tag.company {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.user-phone {
+  font-size: 28rpx;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.user-phone::before {
+  content: '📱';
+  margin-right: 8rpx;
+}
+
+/* 菜单区域 */
+.menu-section {
+  margin: 30rpx;
+}
+
+.menu-group {
+  background: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:active {
+  background: #F8F9FA;
+  transform: scale(0.98);
+}
+
+.menu-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #1976D2 0%, #42A5F5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(25, 118, 210, 0.3);
+}
+
+.menu-icon .bi {
+  font-size: 36rpx;
+  color: white;
+}
+
+.menu-title {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #CCCCCC;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.menu-item:active .menu-arrow {
+  transform: rotate(90deg);
+}
+
+/* 统计信息卡片 */
+.stats-section {
+  margin: 30rpx;
+  background: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.stats-title::before {
+  content: '📊';
+  margin-right: 12rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.stat-item {
+  background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  text-align: center;
+  color: white;
+}
+
+.stat-number {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 快捷操作区域 */
+.quick-actions {
+  margin: 30rpx;
+  background: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.actions-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.actions-title::before {
+  content: '⚡';
+  margin-right: 12rpx;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background: #F8F9FA;
+  transition: all 0.3s ease;
+}
+
+.action-item:active {
+  transform: scale(0.95);
+  background: #ECEFF1;
+}
+
+.action-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 15rpx;
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(76, 175, 80, 0.3);
+}
+
+.action-icon .bi {
+  font-size: 28rpx;
+  color: white;
+}
+
+.action-name {
+  font-size: 22rpx;
+  color: #333;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 退出登录 */
+.logout-section {
+  padding: 30rpx;
+}
+
+.logout-btn {
+  width: 100%;
+  background: transparent;
+  border: 3rpx solid #F44336;
+  color: #F44336;
+  border-radius: 50rpx;
+  padding: 24rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4rpx 16rpx rgba(244, 67, 54, 0.2);
+}
+
+.logout-btn:active {
+  background: #F44336;
+  color: white;
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 12rpx rgba(244, 67, 54, 0.4);
+}
+
+/* 版本信息 */
+.version-section {
+  padding: 30rpx;
+  text-align: center;
+}
+
+.version-info {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.copyright {
+  font-size: 22rpx;
+  color: #CCCCCC;
+}
+
+/* 响应式适配 */
+@media (max-width: 375px) {
+  .header-section {
+    padding: 50rpx 25rpx 35rpx;
+  }
+  
+  .user-avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+    margin-right: 25rpx;
+  }
+  
+  .user-name {
+    font-size: 32rpx;
+  }
+  
+  .menu-item {
+    padding: 25rpx;
+  }
+  
+  .menu-icon {
+    width: 70rpx;
+    height: 70rpx;
+    font-size: 32rpx;
+    margin-right: 20rpx;
+  }
+  
+  .menu-title {
+    font-size: 28rpx;
+  }
+  
+  .stats-grid,
+  .actions-grid {
+    gap: 16rpx;
+  }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .profile-container {
+    background-color: #121212;
+  }
+  
+  .user-card,
+  .menu-group,
+  .stats-section,
+  .quick-actions {
+    background: #1E1E1E;
+  }
+  
+  .menu-item {
+    border-bottom-color: #333333;
+  }
+  
+  .menu-item:active {
+    background: #2C2C2C;
+  }
+  
+  .user-name,
+  .menu-title,
+  .stats-title,
+  .actions-title {
+    color: #FFFFFF;
+  }
+  
+  .user-phone {
+    color: #CCCCCC;
+  }
+  
+  .action-item {
+    background: #2C2C2C;
+  }
+  
+  .action-item:active {
+    background: #333333;
+  }
+  
+  .action-name {
+    color: #FFFFFF;
+  }
+  
+  .version-info {
+    color: #999999;
+  }
+  
+  .copyright {
+    color: #666666;
+  }
+}

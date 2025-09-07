@@ -1,0 +1,144 @@
+<!--pages/personal-info/personal-info.wxml-->
+<view class="personal-info-container">
+  <!-- 头像区域 -->
+  <view class="avatar-section">
+    <view class="avatar-wrapper" bindtap="onChooseAvatar">
+      <image 
+        class="user-avatar"
+        src="{{formData.avatar || 'https://via.placeholder.com/120x120/E0E0E0/999999?text=头像'}}"
+        mode="aspectFill"
+      />
+      <view class="avatar-overlay">📷</view>
+      <view class="upload-loading" wx:if="{{uploading}}">上传中...</view>
+    </view>
+    <view class="avatar-tip">点击更换头像</view>
+  </view>
+
+  <!-- 基本信息表单 -->
+  <view class="form-section">
+    <view class="form-group">
+      <view class="form-item">
+        <view class="form-label">姓名 *</view>
+        <input
+          class="form-input"
+          value="{{formData.name}}"
+          placeholder="请输入真实姓名"
+          bindinput="onInputChange"
+          data-field="name"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">性别 *</view>
+        <picker bindchange="onGenderChange" value="{{genderIndex}}" range="{{genderOptions}}">
+          <view class="picker-input">
+            {{formData.gender ? (formData.gender === 'male' ? '男' : '女') : '请选择性别'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">年龄 *</view>
+        <input
+          class="form-input"
+          value="{{formData.age}}"
+          placeholder="请输入年龄"
+          type="number"
+          bindinput="onInputChange"
+          data-field="age"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">手机号 *</view>
+        <input
+          class="form-input"
+          value="{{formData.phone}}"
+          placeholder="请输入手机号"
+          type="number"
+          maxlength="11"
+          bindinput="onInputChange"
+          data-field="phone"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">邮箱</view>
+        <input
+          class="form-input"
+          value="{{formData.email}}"
+          placeholder="请输入邮箱（选填）"
+          bindinput="onInputChange"
+          data-field="email"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">居住地址</view>
+        <input
+          class="form-input"
+          value="{{formData.address}}"
+          placeholder="请输入居住地址"
+          bindinput="onInputChange"
+          data-field="address"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">紧急联系人</view>
+        <input
+          class="form-input"
+          value="{{formData.emergencyContact}}"
+          placeholder="请输入紧急联系人姓名"
+          bindinput="onInputChange"
+          data-field="emergencyContact"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">紧急联系电话</view>
+        <input
+          class="form-input"
+          value="{{formData.emergencyPhone}}"
+          placeholder="请输入紧急联系人电话"
+          type="number"
+          maxlength="11"
+          bindinput="onInputChange"
+          data-field="emergencyPhone"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 个人简介 -->
+  <view class="intro-section">
+    <view class="section-title">个人简介</view>
+    <textarea
+      class="intro-textarea"
+      value="{{formData.introduction}}"
+      placeholder="请简单介绍一下自己的工作经验和技能特长..."
+      maxlength="200"
+      bindinput="onInputChange"
+      data-field="introduction"
+    />
+    <view class="char-count">{{formData.introduction.length || 0}}/200</view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="errors-section" wx:if="{{Object.keys(errors).length > 0}}">
+    <view class="error-item" wx:for="{{errors}}" wx:key="index">
+      <text class="error-text">❌ {{item}}</text>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section">
+    <button
+      class="save-btn {{loading ? 'loading' : ''}}"
+      disabled="{{loading}}"
+      bindtap="onSave"
+    >
+      {{loading ? '保存中...' : '保存信息'}}
+    </button>
+  </view>
+</view>

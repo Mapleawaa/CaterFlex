@@ -1,0 +1,149 @@
+<!--pages/attendance-history/attendance-history.wxml-->
+<view class="history-container">
+  <!-- 头部统计 -->
+  <view class="stats-header">
+    <view class="month-selector">
+      <button class="month-btn" bindtap="onPrevMonth">
+        <text class="bi bi-chevron-left"></text>
+      </button>
+      <text class="month-text">{{currentMonth}}</text>
+      <button class="month-btn" bindtap="onNextMonth">
+        <text class="bi bi-chevron-right"></text>
+      </button>
+    </view>
+    
+    <view class="month-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{monthStats.workDays}}</text>
+        <text class="stat-label">工作天数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{monthStats.totalHours}}</text>
+        <text class="stat-label">总工时</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{monthStats.lateCount}}</text>
+        <text class="stat-label">迟到次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{monthStats.earlyCount}}</text>
+        <text class="stat-label">早退次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选器 -->
+  <view class="filter-section">
+    <scroll-view class="filter-scroll" scroll-x="true">
+      <view class="filter-item {{filterType === 'all' ? 'active' : ''}}" 
+            bindtap="onFilterChange" data-type="all">
+        全部
+      </view>
+      <view class="filter-item {{filterType === 'normal' ? 'active' : ''}}" 
+            bindtap="onFilterChange" data-type="normal">
+        正常
+      </view>
+      <view class="filter-item {{filterType === 'late' ? 'active' : ''}}" 
+            bindtap="onFilterChange" data-type="late">
+        迟到
+      </view>
+      <view class="filter-item {{filterType === 'early' ? 'active' : ''}}" 
+            bindtap="onFilterChange" data-type="early">
+        早退
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 考勤记录列表 -->
+  <view class="records-section">
+    <block wx:if="{{loading}}">
+      <view class="loading-state">
+        <text class="loading-icon bi bi-arrow-clockwise"></text>
+        <text class="loading-text">加载中...</text>
+      </view>
+    </block>
+
+    <block wx:elif="{{filteredRecords.length > 0}}">
+      <view class="records-list">
+        <block wx:for="{{filteredRecords}}" wx:key="date">
+          <view class="date-group">
+            <view class="date-header">
+              <text class="date-text">{{item.date}}</text>
+              <text class="weekday-text">{{item.weekday}}</text>
+              <view class="day-summary">
+                <text class="work-hours" wx:if="{{item.workHours}}">
+                  工时: {{item.workHours}}小时
+                </text>
+                <text class="day-status {{item.dayStatus}}">
+                  {{item.dayStatusText}}
+                </text>
+              </view>
+            </view>
+            
+            <view class="day-records">
+              <block wx:for="{{item.records}}" wx:for-item="record" wx:key="id">
+                <view class="record-card">
+                  <view class="record-main">
+                    <view class="record-info">
+                      <view class="record-type-icon {{record.type}}">
+                        <text class="bi {{record.type === 'in' ? 'bi-box-arrow-in-right' : 'bi-box-arrow-right'}}"></text>
+                      </view>
+                      <view class="record-details">
+                        <text class="record-type-text">{{record.typeText}}</text>
+                        <text class="record-time">{{record.time}}</text>
+                      </view>
+                    </view>
+                    
+                    <view class="record-status">
+                      <text class="status-badge {{record.status}}">
+                        {{record.statusText}}
+                      </text>
+                    </view>
+                  </view>
+                  
+                  <view class="record-extra" wx:if="{{record.showExtra}}">
+                    <view class="extra-item" wx:if="{{record.location}}">
+                      <text class="extra-icon bi bi-geo-alt"></text>
+                      <text class="extra-text">{{record.location.address || '位置信息'}}</text>
+                    </view>
+                    <view class="extra-item" wx:if="{{record.distance !== null}}">
+                      <text class="extra-icon bi bi-rulers"></text>
+                      <text class="extra-text">距离工作地点 {{record.distance}}米</text>
+                    </view>
+                    <view class="extra-item" wx:if="{{record.faceVerified}}">
+                      <text class="extra-icon bi bi-person-check"></text>
+                      <text class="extra-text">人脸识别已验证</text>
+                    </view>
+                  </view>
+                  
+                  <view class="record-actions">
+                    <button class="action-btn" bindtap="onToggleExtra" data-id="{{record.id}}">
+                      <text class="bi {{record.showExtra ? 'bi-chevron-up' : 'bi-chevron-down'}}"></text>
+                      {{record.showExtra ? '收起' : '详情'}}
+                    </button>
+                  </view>
+                </view>
+              </block>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="empty-state">
+        <text class="empty-icon bi bi-calendar-x"></text>
+        <text class="empty-text">暂无考勤记录</text>
+        <text class="empty-desc">{{filterType === 'all' ? '本月还没有考勤记录' : '本月没有符合条件的记录'}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 导出功能 -->
+  <view class="export-section" wx:if="{{filteredRecords.length > 0}}">
+    <button class="export-btn" bindtap="onExportRecords">
+      <text class="bi bi-download"></text>
+      导出考勤记录
+    </button>
+  </view>
+</view>
