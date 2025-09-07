@@ -2,6 +2,18 @@
 
 餐饮行业灵活用工小程序平台 - Flexible employment mini program platform for the catering industry
 
+<div align="center">
+
+![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)
+![Platform](https://img.shields.io/badge/Platform-WeChat%20MiniProgram-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-brightgreen.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
+![Redis](https://img.shields.io/badge/Redis-7%2B-red.svg)
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=maplleawaa&layout=compact" />
+
+</div>
+
 一个基于微信小程序开发的综合性应用，提供用户管理、工作管理、考勤管理等功能。
 
 ## 项目简介
