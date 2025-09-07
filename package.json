@@ -1,7 +1,7 @@
 {
-  "name": "catering-flexible-work-miniprogram",
+  "name": "cater-flex-miniprogram",
   "version": "1.0.0",
-  "description": "餐饮行业灵活用工小程序平台",
+  "description": "餐饮行业灵活用工小程序平台 - Flexible employment mini program platform for the catering industry",
   "main": "app.js",
   "scripts": {
     "dev": "npm run build:npm",

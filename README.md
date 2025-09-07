@@ -1,5 +1,7 @@
 # CaterFlex
 
+餐饮行业灵活用工小程序平台 - Flexible employment mini program platform for the catering industry
+
 一个基于微信小程序开发的综合性应用，提供用户管理、工作管理、考勤管理等功能。
 
 ## 项目简介
@@ -163,7 +165,7 @@ npm run lint:fix
 
 ## 更新日志
 
-### v1.0.0 (2024-01-01)
+### v1.0.0 (2025-09-07)
 - 初始版本发布
 - 基础功能模块完成
 - 用户认证和个人信息管理

@@ -1,10 +1,10 @@
 version: '3.8'
 
 services:
-  # 微信小程序预览服务
-  miniprogram-preview:
+  # CaterFlex 小程序预览服务
+  caterflex-preview:
     image: node:18-alpine
-    container_name: miniprogram-preview
+    container_name: caterflex-preview
     working_dir: /app
     volumes:
       - .:/app
@@ -23,10 +23,10 @@ services:
     networks:
       - miniprogram-network
 
-  # 模拟后端API服务
-  mock-api:
+  # CaterFlex 模拟后端API服务
+  caterflex-api:
     image: node:18-alpine
-    container_name: mock-api-server
+    container_name: caterflex-api-server
     working_dir: /app/mock
     volumes:
       - ./mock:/app/mock
@@ -43,10 +43,10 @@ services:
     networks:
       - miniprogram-network
 
-  # 数据库服务（开发环境）
-  database:
+  # CaterFlex 数据库服务（开发环境）
+  caterflex-db:
     image: mysql:8.0
-    container_name: miniprogram-db
+    container_name: caterflex-db
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: miniprogram_dev
@@ -60,10 +60,10 @@ services:
     networks:
       - miniprogram-network
 
-  # Redis缓存服务
-  redis:
+  # CaterFlex Redis缓存服务
+  caterflex-redis:
     image: redis:7-alpine
-    container_name: miniprogram-redis
+    container_name: caterflex-redis
     ports:
       - "6379:6379"
     volumes:
@@ -71,10 +71,10 @@ services:
     networks:
       - miniprogram-network
 
-  # 文件存储服务
-  minio:
+  # CaterFlex 文件存储服务
+  caterflex-storage:
     image: minio/minio:latest
-    container_name: miniprogram-storage
+    container_name: caterflex-storage
     ports:
       - "9000:9000"
       - "9001:9001"
