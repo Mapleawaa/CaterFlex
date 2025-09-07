@@ -2,6 +2,11 @@
 
 餐饮行业灵活用工小程序平台 - Flexible employment mini program platform for the catering industry
 
+---
+
+一个基于微信小程序开发的综合性应用，提供用户管理、工作管理、考勤管理等功能。
+
+
 <div align="center">
 
 ![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)
@@ -10,13 +15,10 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
 ![Redis](https://img.shields.io/badge/Redis-7%2B-red.svg)
 
+> ⚠️ **警告**: 程序目前处于仅前端实现交互，后端服务器还未开始开发。详细信息请查看[更新日志](#更新日志)章节
+
 </div>
 
-!!! ERROR 该项目目前处于开发阶段
-      程序目前处于仅前端实现交互，后端服务器还未开始开发。
-      详细信息请查看[更新日志](#更新日志)章节
-
-一个基于微信小程序开发的综合性应用，提供用户管理、工作管理、考勤管理等功能。
 
 ## 项目简介
 
