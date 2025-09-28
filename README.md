@@ -15,10 +15,13 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
 ![Redis](https://img.shields.io/badge/Redis-7%2B-red.svg)
 
-> [!WARNING]
-> 程序目前处于仅前端实现交互，后端服务器还未开始开发。详细信息请查看[更新日志](#更新日志)章节
+
 
 </div>
+
+> [!WARNING]
+> 程序目前处于仅前端实现交互，后端服务器还未开始开发。详细信息请查看[更新日志](#更新日志)章
+
 
 
 ## 项目简介
